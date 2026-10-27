@@ -56,15 +56,15 @@
             </a>
           </li>
           <li class="sidebar-menu-item">
-            <a href="page-login.html" class="sidebar-menu-link" id="menu-loginpage" title="Login Page">
-              <i class="bi bi-box-arrow-in-right"></i>
-              <span>Login Screen</span>
+            <a href="{{ route('admin.user.index') }}" class="sidebar-menu-link" id="menu-loginpage" title="Login Page">
+              <i class="bi bi-people"></i>
+              <span>User</span>
             </a>
           </li>
           <li class="sidebar-menu-item">
             <a href="page-404.html" class="sidebar-menu-link" id="menu-404" title="404 Page">
-              <i class="bi bi-slash-circle"></i>
-              <span>Error 404</span>
+              <i class="bi bi-gear"></i>
+              <span>Pengaturan</span>
             </a>
           </li>
 
@@ -77,8 +77,8 @@
       <img src="assets/images/avatar.png" alt="Administrator" class="sidebar-profile-img"
         onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=256&auto=format&fit=crop'">
       <div class="sidebar-profile-info">
-        <div class="sidebar-profile-name">Administrator</div>
-        <div class="sidebar-profile-email">admin@email.com</div>
+        <div class="sidebar-profile-name">{{ auth()->user()->name ?? '' }}</div>
+        <div class="sidebar-profile-email">{{ auth()->user()->email ?? '' }}</div>
       </div>
     </div>
   </div>
