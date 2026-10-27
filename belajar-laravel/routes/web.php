@@ -24,3 +24,12 @@ Route::get('perkalian', [BelajarController::class, 'kali'])->name('perkalian');
 Route::post('actionKali', [BelajarController::class, 'actionKali'])->name('actionKali');
 
 Route::get('jumlah', [BelajarController::class, 'jumlah'])->name('jumlah');
+
+// prefix
+Route::prefix('admin')->name('admin.')->group(function(){
+    // mau melihat tampilan login
+    Route::get('/login', [\App\Http\Controllers\LoginController::class, 'login']);
+    Route::post('/actionLogin', [\App\Http\Controllers\LoginController::class, 'actionLogin'])->name('actionLogin');
+
+    Route::resource('dashboard', \App\Http\Controllers\DashboardController::class);
+});
