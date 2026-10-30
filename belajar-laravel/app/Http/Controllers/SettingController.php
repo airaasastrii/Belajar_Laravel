@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Setting;
+use Illuminate\Support\Facades\Storage;
 
 class SettingController extends Controller
 {
@@ -30,6 +31,25 @@ class SettingController extends Controller
             'url_youtube' => 'nullable|url|max:255',
             'url_tiktok' => 'nullable|url|max:255',
         ]);
+
+        if($request->hasFile('site_logo')) {
+            $setting = Setting::where('key', 'site_logo')->first();
+
+            if($setting && $setting->value){
+                // hapus gambar
+                Storage::disk('public')->delete($setting->value);
+            }
+            $path = $request->file('site_logo')->store('setting','public');
+            Setting::updateOrCreate(
+                    ['key'=> 'site_logo'],
+                    [
+                        'value'=> $path,
+                        'label'=> "Site Logo",
+                        'group'=> 'general',
+                        'type' => 'image'
+                    ]
+                );
+            }
 
         $ignoreKeys = ['site_logo'];
 
