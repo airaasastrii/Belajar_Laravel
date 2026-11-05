@@ -3,6 +3,7 @@
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BelajarController;
+use \App\Http\Controllers\ProductController;
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
 
@@ -33,6 +34,7 @@ Route::prefix('admin')->name('admin.')->group(function(){
     Route::resource('dashboard', \App\Http\Controllers\DashboardController::class);
     Route::resource('user', \App\Http\Controllers\UserController::class);
     Route::resource('category', \App\Http\Controllers\CategoryController::class);
+    Route::resource('product', ProductController::class);
 
     Route::get('/settings', [\App\Http\Controllers\SettingController::class, 'index'])->name('settings');
     Route::post('/settings', [\App\Http\Controllers\SettingController::class, 'update'])->name('settings.update');
