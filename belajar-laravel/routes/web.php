@@ -5,7 +5,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BelajarController;
 use \App\Http\Controllers\ProductController;
 
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
 
 // get, post, put, delete
 // si ('belajar') yg bakal di cari ke browser (localhost:8000/belajar) gitu contohnya.
@@ -39,3 +38,8 @@ Route::prefix('admin')->name('admin.')->group(function(){
     Route::get('/settings', [\App\Http\Controllers\SettingController::class, 'index'])->name('settings');
     Route::post('/settings', [\App\Http\Controllers\SettingController::class, 'update'])->name('settings.update');
 });
+
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
+Route::get('/category/{slug}', [\App\Http\Controllers\CatalogController::class, 'category'])->name('category.show');
+Route::get('/product/{slug}', [\App\Http\Controllers\CatalogController::class, 'product'])->name('product.show');
+

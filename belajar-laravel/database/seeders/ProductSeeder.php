@@ -12,29 +12,29 @@ class ProductSeeder extends Seeder
      */
     public function run(): void
     {
-        $products = [[
-            'category_id' => 1,
-            'image' => null,
-            'name' => 'Kartu Nama Glossy',
-            'stock' => 100,
-            'price' => 15000
-        ], [
-            'category_id' => 2,
-            'image' => null,
-            'name' => 'Cutting Sticker',
-            'stock' => 100,
-            'price' => 25000
-        ]];
+        // $products = [[
+        //     'category_id' => 1,
+        //     'image' => null,
+        //     'name' => 'Kartu Nama Glossy',
+        //     'stock' => 100,
+        //     'price' => 15000
+        // ], [
+        //     'category_id' => 2,
+        //     'image' => null,
+        //     'name' => 'Cutting Sticker',
+        //     'stock' => 100,
+        //     'price' => 25000
+        // ]];
 
-        foreach ($products as $value) {
-            \App\Models\Product::create([
-                'category_id' => $value['category_id'],
-                'image' => $value['image'],
-                'name' => $value['name'],
-                'stock' => $value['stock'],
-                'price' => $value['price']
-            ]);
-        }
+        // foreach ($products as $value) {
+        //     \App\Models\Product::create([
+        //         'category_id' => $value['category_id'],
+        //         'image' => $value['image'],
+        //         'name' => $value['name'],
+        //         'stock' => $value['stock'],
+        //         'price' => $value['price']
+        //     ]);
+        // }
     }
 }
 

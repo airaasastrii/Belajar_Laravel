@@ -53,8 +53,8 @@
                 <!-- Logo Container -->
                 <div class="col-6 col-md-3 col-lg-3">
                     <a class="d-inline-block" href="index.html">
-                        <img alt="PrimaGraphia - Inovasi Cetak Kekinian" class="img-fluid"
-                            src="https://lh3.googleusercontent.com/aida/AEtjO1Xqry6qw2vUQSI9rgWQp5wG9IEWpNyBr_qtSHLs0JUAsLqXh5rlF2X4LRoa0DNt_DAOJoiAa20HFjC1RmkiNObcfUgNZhlveauu5OmOR3WZJi3nfPU5IPy5yiZFKD-NLxwE7ZRGzuuo8a67NDvqKEetINcB4yc10OV_Fc30AlRbnRct0nnBpNw2EJZRG-bGmv3B-Sn0d-lVpe8O2jDVhzYCi5AX782OHW5ros6SNho"
+                        <img alt="{{ $settings['site_name'] ?? '' }} - {{ $settings['site_tagline'] ?? ''}}" class="img-fluid"
+                            src="{{ asset('storage/' . $settings['site_logo']) }}"
                             style="max-height: 48px; width: auto;" />
                     </a>
                 </div>

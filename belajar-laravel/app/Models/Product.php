@@ -6,11 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    protected $fillable = ['category_id', 'image', 'name', 'stock', 'price'];
+    protected $fillable = ['category_id', 'image', 'name', 'slug', 'stock', 'price', 'price_art_cartoon', 'price_art_paper', 'price_hvs', 'price_doft', 'price_glossy', 'cutting_price', 'brief_description', 'description'];
 
     // many to one => banyak product ke satu category (belongsTo)
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    // hashManyImage => 
+    public function images()
+    {
+        return $this->hasMany(ProductImage::class);
     }
 }
