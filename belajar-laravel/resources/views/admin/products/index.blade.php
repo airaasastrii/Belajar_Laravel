@@ -25,8 +25,14 @@
                 <tr>
                     <td>{{ $loop->iteration }}</td>
                     <td>
-                        @if($item->image !== null)
-                            <img src="{{ asset('storage/'. $item->image) }}" width="100" alt="{{ $item->name?? '' }}">
+                        @if ($item->images != null)
+                            @foreach ($item->images as $image)
+                                @if ($image->path != null)
+                                    <img src="{{ asset('storage/'. $image->path) }}" width="100" alt="{{ $image->alt ?? '' }}">
+                                @else
+                                    <span class="text-muted">{{ $image->alt ?? 'Gambar tidak ditemukan!' }}</span>
+                                @endif
+                            @endforeach
                         @else
                             <span class="text-muted">Gambar tidak ditemukan!</span>
                         @endif

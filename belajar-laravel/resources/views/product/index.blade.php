@@ -22,8 +22,8 @@
                 <!-- LEFT COLUMN: Galeri Visual, Preview & Tab Informasi -->
                 <div class="col-12 col-lg-6">
                     <!-- Large Preview Visual Card -->
-                    <div class="card border rounded-4 shadow-sm overflow-hidden mb-3 bg-white">
-                        <div class="position-relative p-4 p-md-5 d-flex align-items-center justify-content-center"
+                    <div class="card border rounded-4 shadow-sm overflow-hidden mb-3 bg-white relative">
+                        {{-- <div class="position-relative p-4 p-md-5 d-flex align-items-center justify-content-center"
                             style="min-height: 420px; background: radial-gradient(circle at 50% 40%, #ffffff 0%, #edf3f8 100%);">
                             <!-- Badges overlay -->
 
@@ -35,9 +35,15 @@
                                 </button>
                             </div>
                             <!-- Realistic 3D Card Mockup with Spot UV / Foil visual simulation -->
-                            <img src="{{ asset('storage' . $product->image) }}" alt="">
 
-                        </div>
+                        </div> --}}
+                        @if (count($product->images) > 0)
+                            @if (($product->images()->first())->path != null)
+                                <img src="{{ asset('storage/'.($product->images()->first())->path) }}" alt="">
+                            @else
+                                <span>{{ ($product->first())->alt ?? "Gambar tidak ditemukan" }}</span>
+                            @endif
+                        @endif
                     </div>
                     <!-- Thumbnail Carousel / Selector -->
                     <div class="row g-2 mb-4">

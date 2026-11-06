@@ -361,7 +361,7 @@
 
                                 <div class="bg-light p-4 text-center position-relative d-flex align-items-center justify-content-center"
                                     style="height: 180px;">
-                                    <img src="{{ asset('storage/' . $product->image) }}" alt="" width="100%">
+                                    <img src="{{ asset('storage/' . $product->images[0]->path) }}" alt="" width="100%">
                                 </div>
                                 <div class="card-body p-3 d-flex flex-column">
                                     <div class="text-muted text-uppercase fw-semibold"

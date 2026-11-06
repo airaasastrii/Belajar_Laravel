@@ -12,14 +12,25 @@ class CatalogController extends Controller
     {
         // slug digital-printing id ke berapa
         $category = Category::where('slug', $slug)-> first();
-        $products = $category->products()->paginate(10);
+        $products = $category->products()
+            ->with(['images' => function ($query) {
+                return $query->first();
+            }])
+            ->paginate(10);
 
         return view('category.index', compact('products', 'category'));
     }
 
     public function product(string $slug)
     {
-        $product = Product::where('slug', $slug)->first();
+        $product = Product::where('slug', $slug)
+            ->with([
+                'images' => function ($query) {
+                    return $query->get();
+                }
+            ])
+            ->first();
+
         return view('product.index', compact('product'));
     }
 }

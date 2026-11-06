@@ -89,14 +89,51 @@
                 </div>
             </div>
 
+            {{-- Gambar 1 --}}
             <div class="mb-3">
-                <label for="">Gambar</label>
-                <input type="file" class="form-control" name="image" required>
+                <label for="">Gambar 1</label>
+                <input type="file" class="form-control" name="images[]" required>
+            </div>
+            <div class="mb-3">
+                <label for="" class="form-label">Teks Alternatif 1</label>
+                <input type="text" name="alt[]" id="" class="form-control">
+            </div>
+            <div class="mb">
+                <label for="" class="form-label">Urutan Gambar 1</label>
+                <input type="text" name="sort_order[]" id="" class="form-control">
+            </div>
+
+            {{-- Gambar 2 --}}
+            <div class="mb-3">
+                <label for="">Gambar 2</label>
+                <input type="file" class="form-control" name="images[]" required>
+            </div>
+            <div class="mb-3">
+                <label for="" class="form-label">Teks Alternatif 2</label>
+                <input type="text" name="alt[]" id="" class="form-control">
+            </div>
+            <div class="mb">
+                <label for="" class="form-label">Urutan Gambar 2</label>
+                <input type="text" name="sort_order[]" id="" class="form-control">
+            </div>
+
+            {{-- Gambar 3 --}}
+            <div class="mb-3">
+                <label for="">Gambar 3</label>
+                <input type="file" class="form-control" name="images[]" required>
+            </div>
+            <div class="mb-3">
+                <label for="" class="form-label">Teks Alternatif 3</label>
+                <input type="text" name="alt[]" id="" class="form-control">
+            </div>
+            <div class="mb">
+                <label for="" class="form-label">Urutan Gambar 3</label>
+                <input type="text" name="sort_order[]" id="" class="form-control">
             </div>
 
             <div class="mb-3">
                 <button type="submit" class="btn-custom btn-custom-primary">Simpan</button>
-                <button type="submit" class="btn-custom btn-custom-warning">Kembali</button>
+                <button type="button" class="btn-custom btn-custom-warning">Kembali</button>
             </div>
         </div>
     </form>

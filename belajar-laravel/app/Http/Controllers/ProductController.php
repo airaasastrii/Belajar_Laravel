@@ -18,7 +18,7 @@ class ProductController extends Controller
     {
         $title = "Managemen Produk || PPKD Sticker";
         //one to many = satu produk punya banyak category
-        $products = Product::with('category')->get();
+        $products = Product::with('category', 'images')->get();
         return view('admin.products.index', compact('title','products'));
     }
 
@@ -35,90 +35,85 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    // slug untuk menambahkan garis" atau titik di url
+   public function store(Request $request)
     {
         $validated = $request->validate([
             'category_id' => 'required|exists:categories,id',
-            'image' => 'nullable|image|mimes:png,jpg,jpeg,gif|max:2048',
             'name' => 'required|string|max:60',
-            'slug' => 'nullable|string|unique:products,slug',
-            'price' => 'required|integer',
-            'price_art_cartoon' => 'nullable|integer',
-            'price_art_paper' => 'nullable|integer',
-            'price_hvs' => 'nullable|integer',
-            'price_doft' => 'nullable|integer',
-            'price_glossy' => 'nullable|integer',
-            'cutting_price' => 'nullable|integer',
-            'brief_description' => 'nullable|string|max:255',
-            'description' => 'nullable|string|max:255',
+            'slug' => 'nullable|string|max:60|unique:products,slug',
+            'price' => 'required|numeric',
+            'brief_description' => 'nullable|string',
+            'description' => 'nullable|string',
+            'price_art_cartoon' => 'nullable|numeric',
+            'price_art_paper' => 'nullable|numeric',
+            'price_hvs' => 'nullable|numeric',
+            'price_doft' => 'nullable|numeric',
+            'price_glossy' => 'nullable|numeric',
+            'cutting_price' => 'nullable|numeric',
 
-
-            // validasi product image
             'images' => 'nullable|array',
-            'images.*' => 'image|mimes:png,jpg,jpeg,webp|max:2048',
+            'images.*' => 'nullable|image|mimes:png,jpg,jpeg,webp|max:2048',
             'alt' => 'nullable|array',
             'alt.*' => 'nullable|string|max:255',
-            'sort_order' => 'nullable|integer',
+            'sort_order.*' => 'required|integer'
         ]);
 
-        // product, product images
-        // transaction
-        //kenapa pakai request dan validated, supaya variabel yg di luar bisa masuk kedalam variabel (db transaction)
-        DB::transaction(function() use($request, $validated){
+        // dd($request->images);
+
+        //buat nambah gambar+produk barisan 64-88#byZidan // kalau dari pak tri di barisan 86-108 di vc nya
+        if (empty($validated['slug'])) {
+            $validated['slug'] = Str::slug($validated['name']);
+        }
+
+        try {
+            DB::beginTransaction();
+
+            $arrImage = [];
+
+            if ($request->has('images') && is_array($request->images)) {
+                if (count($request->images) > 0) {
+                    foreach ($request->images as $key => $image) {
+                        if ($request->hasFile('images.' . $key)) {
+                            $path = $image->store('products', 'public');
+
+                            $arrImage[] = [
+                                'path' => $path,
+                                'alt' => $validated['alt'][$key],
+                                'sort_order' => $validated['sort_order'][$key]
+                            ];
+                        }
+                    }
+
+                    // dd($arrImage);
+                }
+            }
+
             $product = Product::create([
                 'category_id' => $validated['category_id'],
                 'name' => $validated['name'],
+                'slug' => $validated['slug'],
+                'price_art_paper' => $validated['price_art_paper'],
+                'description' => $validated['description'],
+                'brief_description' => $validated['brief_description'],
+                'price_art_cartoon' => $validated['price_art_cartoon'],
+                'price_hvs' => $validated['price_hvs'],
+                'price_doft' => $validated['price_doft'],
+                'price_glossy' => $validated['price_glossy'],
+                'cutting_price' => $validated['cutting_price'],
+                'price' => $validated['price'],
             ]);
 
-            if($request->hasFile('images')){
-                $imageData = [];
 
-                foreach ($request->file('image') as $key => $file) {
-                    $path = $file->store('products', 'public');
+            $product->images()->createMany($arrImage);
 
-                    $imageData[] = [
-                        'path' => $path,
-                        'alt' => $request->input('alt.{$key}') ?? $product->name,
-                        'sort_order' => $key + 1,
-                    ];
-                }
-                $product->images()->createMany($imageData);
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollBack();
 
-            }
-
-        });
-
-        return redirect()->route('admin.product.index')->with('success', 'Produk berhasil ditambahkan');
-
-
-
-        $imagePath = null;
-        if ($request->image) {
-            $imagePath = $request->file('image')->store('products', 'public');
+            throw $th;
         }
 
-        $validated['slug'] = $validated['slug'] ? Str::slug($validated['slug']) : Str::slug($validated['name']);
-
-        // dd($validated['slug']);
-
-        Product::create([
-            'category_id' => $validated['category_id'],
-            'image' => $imagePath,
-            'name' => $validated['name'],
-            'slug' => $validated['slug'],
-            'price' => $validated['price'],
-            'price_art_cartoon' => $validated['price_art_cartoon'],
-            'price_art_paper' => $validated['price_art_paper'],
-            'price_hvs' => $validated['price_hvs'],
-            'price_doft' => $validated['price_doft'],
-            'price_glossy' => $validated['price_glossy'],
-            'cutting_price' => $validated['cutting_price'],
-            'brief_description' => $validated['brief_description'],
-            'description' => $validated['description'],
-        ]);
-
-        return redirect()->route('admin.product.index')->with('success', 'Produk berhasil ditambahkan');
+        return redirect()->route('admin.product.index')->with('success', 'Product berhasil ditambahkan!');
     }
 
     /**
@@ -142,12 +137,12 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        // $validated = $request->validated();
-        // $validated['image'] = $validated['image'] ?? 'bi bi-box-seam';
-        // $validated['name'] = $validated['name'] ?? "";
-        // $validated['stock'] = $validated['stock'] ?? 0;
-        // $validated['price'] = $request->boolean('price');
-        // $product->update($validated);
+        $validated = $request->validated();
+        $validated['image'] = $validated['image'] ?? 'bi bi-box-seam';
+        $validated['name'] = $validated['name'] ?? "";
+        $validated['stock'] = $validated['stock'] ?? 0;
+        $validated['price'] = $request->boolean('price');
+        $product->update($validated);
 
         $validated = $request->validate([
             'name'=> 'required|string',
