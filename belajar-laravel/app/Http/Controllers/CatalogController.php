@@ -21,6 +21,12 @@ class CatalogController extends Controller
         return view('category.index', compact('products', 'category'));
     }
 
+    public function listing()
+    {
+        $products = Product::with('category')->get();
+        return view('product.index', compact('products'));
+    }
+
     public function product(string $slug)
     {
         $product = Product::where('slug', $slug)
@@ -31,6 +37,6 @@ class CatalogController extends Controller
             ])
             ->first();
 
-        return view('product.index', compact('product'));
+        return view('product.show', compact('product'));
     }
 }

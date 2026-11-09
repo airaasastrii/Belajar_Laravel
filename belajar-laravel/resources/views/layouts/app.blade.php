@@ -17,6 +17,7 @@
         rel="stylesheet" />
     <!-- Core Theme & Layout Styles -->
     <link href="{{asset('asset-web/assets/css/style.css')}}" rel="stylesheet" />
+    <link href="{{ asset('asset-web/assets/css/faq.css') }}" rel="stylesheet"/>
 </head>
 
 <body>
@@ -37,6 +38,7 @@
     <!-- END: FloatingWhatsApp -->
     <!-- Bootstrap 5 Bundle JS (Includes Popper) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset('asset-web/assets/js/faq.js') }}"></script>
 </body>
 
 </html>
