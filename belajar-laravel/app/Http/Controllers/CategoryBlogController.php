@@ -39,7 +39,6 @@ class CategoryBlogController extends Controller
 
         // slug digital-marketing
         $validated['slug'] = $validated['slug'] ? Str::slug($validated['slug']) : Str::slug($validated['name']);
-        $validated['sort_order'] = $validated['sort_order'] ?? 0;
         CategoryBlog::create($validated);
         return redirect()->route('admin.category_blog.index')->with('success','Kategori Blog berhasil ditambahkan');
     }
@@ -55,7 +54,7 @@ class CategoryBlogController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(CategoryBlog $category)
+    public function edit(CategoryBlog $categoryBlog)
     {
         $title = 'Edit Kategori || PPKD Sticker';
         return view('admin.category_blog.edit', compact('categoryBlog', 'title'));
@@ -72,7 +71,7 @@ class CategoryBlogController extends Controller
         ]);
 
         $validated['slug'] = $validated['slug'] ? Str::slug($validated['slug']) : Str::slug($validated['name']);
-        $validated['sort_order'] = $validated['sort_order'] ?? 0;
+        // $validated['sort_order'] = $validated['sort_order'] ?? 0;
         $categoryBlog->update($validated);
 
         return redirect()->route('admin.category_blog.index')->with('success', 'Kategori Blog berhasil diperbarui');

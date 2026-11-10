@@ -25,19 +25,20 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($blog as $key => $data)
+                @foreach ($blogs as $key => $data)
                     <tr>
                         <td>{{ $key += 1 }}</td>
-                        <td><img src=" {{ asset('/storage/' . $data->cover_path ?? '') }}" alt=""></td>
+                        <td><img src=" {{ asset('/storage/' . $data->cover_path ?? '') }}" alt="" style="object-fit: cover; border-radius: 5px;" width="100"></td>
                         <td>{{ $data->name ?? '' }}</td>
                         <td>{{ $data->category->name ?? '' }}</td>
                         <td>{{ $data->slug ?? '' }}</td>
                         <td>{{ $data->brief_description ?? '' }}</td>
+                        <td>{{ $data->author ?? '' }}</td>
                         <td>
                             <a class="table-btn-action" title="Edit" href="{{ route('admin.blog.edit', $data->id) }}">
                                 <i class="bi bi-pencil"></i>
                             </a>
-                            <form action="{{ route('admin.category_blog.destroy', $data->id) }}"
+                            <form action="{{ route('admin.blog.destroy', $data->id) }}"
                                 method="post" class="d-inline"
                                 onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
                                 @csrf

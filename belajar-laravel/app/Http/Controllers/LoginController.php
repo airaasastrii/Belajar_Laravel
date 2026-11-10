@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+
 class LoginController extends Controller
 {
     public function login()
@@ -24,7 +25,17 @@ class LoginController extends Controller
                 ->with('success','Selamat datang kembali di Dashboard Admin PPKD Sticker');
         }
 
-        return back()->withError(['email'=> 'Email atau password salah.'])->onlyInput('email');
+        return back()->withErrors(['email'=> 'Email atau password salah.'])->onlyInput('email');
 
+    }
+
+    // logout bisa di bagi 2 macam
+    // method get dan method post
+    public function logout(Request $request)
+    {
+        Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+        return redirect('/admin/login');
     }
 }

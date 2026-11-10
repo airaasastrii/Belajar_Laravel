@@ -44,13 +44,12 @@ class BlogController extends Controller
             'blog_category_id' => 'required|exists:category_blogs,id',
             'brief_description' => 'nullable|string',
             'slug' => 'nullable|string|max:60|unique:category_blogs,slug',
-            'content'=> 'nullable|string',
+            'content'=> 'string',
             'author' => 'nullable|string',
             'cover_path' => 'image|mimes:png,jpg,jpeg,webp|max:2048',
 
         ]);
 
-        // dd($request->images);
 
         if($request->hasFile('cover_path')) {
             $validated['cover_path'] = $request->file('cover_path')->store('blogs', 'public');
@@ -77,7 +76,9 @@ class BlogController extends Controller
     public function edit(Blog $blog)
     {
         $title = "Ubah Blog || PPKD Sticker";
-        return view('admin.blog.edit', compact('blog', 'title'));
+        $categories = CategoryBlog::get();
+
+        return view('admin.blog.edit', compact('blog', 'title', 'categories'));
     }
 
     /**
@@ -86,12 +87,13 @@ class BlogController extends Controller
     public function update(Request $request, Blog $blog)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:60',
+            'name' => 'required|string',
             'blog_category_id' => 'required|exists:category_blogs,id',
             'brief_description' => 'nullable|string',
             'content'=> 'nullable|string',
             'author' => 'nullable|string',
-            'cover_path' => 'image|mimes:png,jpg,jpeg,webp|max:2048',
+            'cover_path' => 'nullable|image|mimes:png,jpg,jpeg,webp|max:2048',
+            'slug' => 'nullable',
 
         ]);
 

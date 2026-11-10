@@ -7,4 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class CategoryBlog extends Model
 {
     protected $fillable = ['name', 'slug'];
+
+    public function blogs()
+    {
+        return $this->hasMany(Blog::class, 'blog_category_id');
+    }
 }

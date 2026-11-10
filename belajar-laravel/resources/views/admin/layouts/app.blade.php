@@ -133,7 +133,7 @@
         });
 
         quill.on('text-change', function(delta, oldDelta, source) {
-            document.querySelector("textarea[name='description']").value = quill.root.innerHTML;
+            document.querySelector("textarea").value = quill.root.innerHTML;
             console.log("textarea", quill.root.innerHTML)
         });
     </script>
