@@ -30,7 +30,10 @@
                             PrimaGraphia.</p>
                     </div>
                     <div class="col-lg-5">
-                        <form class="blog-search" role="search" onsubmit="return false;">
+                        <form class="blog-search" role="search" onsubmit="return false;" action="{{ route('blog.index') }}" method="GET">
+                            @if(request('category'))
+                                <input type="hidden" name="category" value="{{ request('category') }}">
+                            @endif
                             <label class="form-label small fw-semibold text-muted" for="blogSearchInput">Cari
                                 artikel</label>
                             <div class="input-group shadow-sm rounded-pill overflow-hidden border">
@@ -38,8 +41,9 @@
                                         class="bi bi-search"></i></span>
                                 <input autocomplete="off" class="form-control border-0 ps-1" id="blogSearchInput"
                                     maxlength="100" placeholder="Cari artikel, mis. stiker, banner…"
-                                    style="font-size: 0.9rem;" type="search" />
+                                    style="font-size: 0.9rem;" type="search" value="{{ request('search') }}"/>
                             </div>
+                                <input type="submit" value="search">
                         </form>
                     </div>
                 </div>
@@ -60,15 +64,16 @@
         <section class="py-5 bg-light" id="artikel">
             <div class="container">
                 <!-- Featured article -->
+                @if ($featuredPost)
                 <article class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4 blog-item blog-featured"
                     data-category="tips-dan-trick">
                     <div class="row g-0 align-items-stretch">
                         <div class="col-lg-7">
                             <a class="ratio ratio-3x2 d-block h-100 bg-light blog-card-media"
-                                href="blog-mengapa-visual-branding-penting-dalam-penyelenggaraan-event.html" tabindex="-1"
+                                href="{{ route('blog.show', $featuredPost->slug) }}" tabindex="-1"
                                 aria-hidden="true">
-                                <img alt="" class="object-fit-cover" data-img-fallback fetchpriority="high"
-                                    src="https://api-minio.primagraphia.co.id/web-asset/images/blog/04%20%282%29_20261028102354_882.png" />
+                                <img alt="{{ $featuredPost->name }}" class="object-fit-cover" data-img-fallback fetchpriority="high"
+                                    src="{{ asset('storage/' . $featuredPost->cover_path) }}" />
                             </a>
                         </div>
                         <div class="col-lg-5 d-flex">
@@ -80,10 +85,8 @@
                                         aria-hidden="true">·</span><time datetime="2026-10-28">28 Okt 2026</time><span
                                         aria-hidden="true">·</span><span>4 menit baca</span></div>
                                 <h2 class="h3 fw-bold lh-sm mb-3"><a class="text-dark"
-                                        href="blog-mengapa-visual-branding-penting-dalam-penyelenggaraan-event.html">Mengapa
-                                        Visual Branding Penting dalam Penyelenggaraan Event?</a></h2>
-                                <p class="text-muted mb-4">Ketahui pentingnya visual branding dalam event serta peran
-                                    backdrop, banner, signage, dan media cetak untuk memperkuat identitas acara.</p>
+                                        href="blog-mengapa-visual-branding-penting-dalam-penyelenggaraan-event.html">{{$featuredPost->name}}</a></h2>
+                                <p class="text-muted mb-4">{{$featuredPost->brief_description}}</p>
                                 <a class="btn btn-pg-primary rounded-pill px-4 py-2 fw-semibold align-self-start d-inline-flex align-items-center gap-2"
                                     href="blog-mengapa-visual-branding-penting-dalam-penyelenggaraan-event.html">Baca
                                     artikel <i class="bi bi-arrow-right"></i></a>
@@ -91,6 +94,7 @@
                         </div>
                     </div>
                 </article>
+                @endif
                 <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="blogGrid">
                     @foreach ($blogs as $blog)
                         <div class="col blog-item" data-category="product">
